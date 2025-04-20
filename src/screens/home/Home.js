@@ -1,6 +1,7 @@
 import React from 'react';
 
-const Home = () => {
+const Home = ({ baseUrl }) => {
+
 	return <div>Home</div>;
 };
 

@@ -1,5 +1,30 @@
-.header{
-  width: 100%;
-  height: 60px;
-  padding: 10px;
+.header {
+	height: 70px;
+	padding: 11px;
+	background-color: purple;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.header-title {
+	align-items: center;
+	display: flex;
+	justify-content: center;
+  gap: 15px;
+}
+
+.title {
+	color: #fff;
+	font-size: 30px;
+}
+
+.logo {
+	height: 55px;
+	object-fit: contain;
+	background-color: #ff7f7f;
+}
+
+.login{
+  
 }
