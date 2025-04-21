@@ -39,13 +39,14 @@
 	background-color: purple;
 }
 
-.modal-body{
+.modal-body {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 }
-.modal-form{
+
+.modal-form {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;

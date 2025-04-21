@@ -8,6 +8,8 @@ import { logoutUser } from '../../store/actions/authActionCreators';
 import Login from '../../screens/login/Login';
 import Register from '../../screens/register/Register';
 
+ReactModal.setAppElement('#root');
+
 const Header = () => {
 	const [modalIsOpen, setIsOpen] = useState(false);
 	const [tabValue, setTabValue] = useState(0);

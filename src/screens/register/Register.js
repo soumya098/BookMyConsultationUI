@@ -1,8 +1,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { registerUser } from '../../store/actions/authActionCreators';
-import { FormControl, FormHelperText, Input, InputLabel } from '@material-ui/core';
-import { Button } from 'bootstrap';
+import { Button, FormControl, FormHelperText, Input, InputLabel } from '@material-ui/core';
 
 const Register = ({ onLoginSuccess }) => {
 	const {

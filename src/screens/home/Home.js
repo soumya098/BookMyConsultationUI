@@ -2,6 +2,8 @@ import { Tab, Tabs } from '@material-ui/core';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import DoctorList from '../doctorList/DoctorList';
+import './Home.css';
+import Appointment from '../appointment/Appointment';
 
 const Home = ({ baseUrl }) => {
 	const [value, setValue] = React.useState(0);
@@ -9,7 +11,7 @@ const Home = ({ baseUrl }) => {
 		setValue(newValue);
 	};
 
-	const isLoggedIn = useSelector((state) => state.userReducer.isLoggedIn);
+	const isLoggedIn = useSelector((state) => state.userReducer.loggedIn);
 
 	return (
 		<div className='d-flex flex-column align-items-center justify-content-center'>
@@ -27,13 +29,13 @@ const Home = ({ baseUrl }) => {
 				</Tabs>
 			</div>
 
-			<div className='row w-100 mt-5 d-flex justify-content-center'>
+			<div className='row w-100 d-flex justify-content-center'>
 				{value === 0 ? (
-					<div className='col-8'>
+					<div className='col-10 col-md-8 col-lg-6'>
 						<DoctorList />
 					</div>
 				) : (
-					<div className='col-12 text-center fs-5'>{isLoggedIn ? 'Appointments' : 'Login to see appointments'}</div>
+					<Appointment/>
 				)}
 			</div>
 		</div>

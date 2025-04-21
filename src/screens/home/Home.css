@@ -1,0 +1,17 @@
+.details-btn {
+	background-color: green !important;
+	color: #fff !important;
+}
+
+.custom-modal {
+	background-color: #fff !important;
+	border-radius: 10px !important;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+	width: 90% !important;
+	max-width: 500px !important;
+	margin: 150px auto !important;
+}
+
+.appointment-modal-form {
+	width: 100% !important;
+}

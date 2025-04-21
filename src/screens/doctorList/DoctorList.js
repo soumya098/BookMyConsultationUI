@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { getDoctors, getSpecialties } from '../../util/fetch';
+import { getDoctorBySpecialty, getDoctors, getSpecialties } from '../../util/fetch';
 import { Star, StarBorder } from '@material-ui/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { SET_SPECIALTIES } from '../../store/actions';
+import { Button, Paper } from '@material-ui/core';
+import BookAppointment from './BookAppointment';
 
 const DoctorList = () => {
 	const [doctors, setDoctors] = useState([]);
 	const specialties = useSelector((state) => state.doctorReducer.allSpecialties);
+	console.log('redux specialties:', specialties);
+	const [isOpen, setIsOpen] = useState(false);
+	const [selectedDoctor, setSelectedDoctor] = useState(null);
+
 	const dispatch = useDispatch();
 
 	const fetchDoctors = async () => {
@@ -36,14 +42,44 @@ const DoctorList = () => {
 		}
 	}, []);
 
+	const handleChange = async (e) => {
+		const selectedSpecialty = e.target.value;
+		if (selectedSpecialty) {
+			try {
+				const response = await getDoctorBySpecialty(selectedSpecialty);
+				setDoctors(response);
+			} catch (error) {
+				console.error('Error fetching doctors by specialty:', error);
+			}
+		} else {
+			fetchDoctors();
+		}
+	};
+
+	const handleBooking = (doctor) => {
+		setIsOpen(true);
+		setSelectedDoctor(doctor);
+	};
+
 	return (
 		<div>
-			<h1 className='text-center'>Doctor List</h1>
-			<div className='row'>
+			<div className='d-flex justify-content-center my-3'>
+				<select className='form-select w-50' aria-label='Default select example' onChange={handleChange}>
+					<option value=''>Select Speciality</option>
+					{specialties.length > 0 &&
+						specialties.map((specialty) => (
+							<option key={specialty} value={specialty}>
+								{specialty}
+							</option>
+						))}
+				</select>
+			</div>
+
+			<div className='row justify-content-center'>
 				{doctors.length > 0 &&
 					doctors.map((doctor) => (
 						<div key={doctor.id} className='col-12 my-2'>
-							<div className='card'>
+							<Paper elevation={3} className='card'>
 								<div className='card-body'>
 									<h5 className='card-title'>
 										Doctor Name: {doctor.firstName} {doctor.lastName}
@@ -54,13 +90,23 @@ const DoctorList = () => {
 										{Array.from({ length: 5 }, (_, i) =>
 											i < Math.floor(doctor.rating) ? <Star key={i} style={{ color: '#fbc02d' }} /> : <StarBorder key={i} style={{ color: '#fbc02d' }} />
 										)}
-										({doctor.rating})
 									</p>
+
+									<div className='d-flex justify-content-between align-items-center gap-4'>
+										<Button variant='contained' color='primary' fullWidth onClick={() => handleBooking(doctor)}>
+											Book Appointment
+										</Button>
+										<Button variant='contained' fullWidth className='details-btn'>
+											View Details
+										</Button>
+									</div>
 								</div>
-							</div>
+							</Paper>
 						</div>
 					))}
 			</div>
+
+			<BookAppointment isOpen={isOpen} onClose={() => setIsOpen(false)} title='Book an Appointment' doctor={selectedDoctor} />
 		</div>
 	);
 };

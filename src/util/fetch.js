@@ -7,6 +7,8 @@ const registerUrl = `${baseURL}/users/register`;
 const doctorsUrl = `${baseURL}/doctors`;
 const specialitiesUrl = `${baseURL}/doctors/speciality`;
 
+const appointmentsUrl = `${baseURL}/users`;
+
 const createHeaders = (includeToken = false, credentials = null) => {
 	const headers = {
 		'Content-Type': 'application/json'
@@ -75,7 +77,6 @@ export const getSpecialties = async () => {
 	return response.json();
 };
 
-
 export const getDoctorById = async (id) => {
 	const response = await fetch(`${doctorsUrl}/${id}`, {
 		method: 'GET'
@@ -86,12 +87,23 @@ export const getDoctorById = async (id) => {
 	return response.json();
 };
 
-export const getDoctorBySpeciality = async (speciality) => {
+export const getDoctorBySpecialty = async (speciality) => {
 	const response = await fetch(`${doctorsUrl}?speciality=${speciality}`, {
 		method: 'GET'
 	});
 	if (!response.ok) {
 		throw new Error('Failed to fetch doctors by speciality');
+	}
+	return response.json();
+};
+
+export const getUserAppointments = async (userId) => {
+	const response = await fetch(`${appointmentsUrl}/${userId}/appointments`, {
+		method: 'GET',
+		headers: createHeaders(true)
+	});
+	if (!response.ok) {
+		throw new Error('Failed to fetch user appointments');
 	}
 	return response.json();
 };
