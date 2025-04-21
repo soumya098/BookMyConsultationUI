@@ -17,7 +17,7 @@ export const loginUser = async (data) => {
 export const logoutUser = async () => {
 	try {
 		await api.logout();
-		console.log('Logout successful:');
+		console.log('Logout successful');
 		sessionStorage.removeItem('token');
 		store.dispatch({ type: actionTypes.LOGOUT });
 	} catch (error) {

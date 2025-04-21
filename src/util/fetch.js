@@ -4,13 +4,31 @@ const loginUrl = `${baseURL}/auth/login`;
 const logoutUrl = `${baseURL}/auth/logout`;
 const registerUrl = `${baseURL}/users/register`;
 
+const doctorsUrl = `${baseURL}/doctors`;
+const specialitiesUrl = `${baseURL}/doctors/speciality`;
+
+const createHeaders = (includeToken = false, credentials = null) => {
+	const headers = {
+		'Content-Type': 'application/json'
+	};
+
+	if (includeToken) {
+		const token = sessionStorage.getItem('token');
+		if (token) {
+			headers.Authorization = `Bearer ${token}`;
+		}
+	} else if (credentials) {
+		headers.Authorization = `Basic ${credentials}`;
+	}
+
+	return headers;
+};
+
 export const login = async (email, password) => {
-	const credentials = btoa(`${email}:${password}`); // Encode to Base64
+	const credentials = btoa(`${email}:${password}`);
 	const response = await fetch(loginUrl, {
 		method: 'POST',
-		headers: {
-			Authorization: `Basic ${credentials}`
-		}
+		headers: createHeaders(false, credentials)
 	});
 	if (!response.ok) {
 		throw new Error('Login failed');
@@ -21,22 +39,59 @@ export const login = async (email, password) => {
 export const logout = async () => {
 	await fetch(logoutUrl, {
 		method: 'POST',
-		headers: {
-			Authorization: `Bearer ${sessionStorage.getItem('token')}`
-		}
+		headers: createHeaders(true)
 	});
 };
 
 export const register = async ({ fname, lname, email, password, mobile }) => {
 	const response = await fetch(registerUrl, {
 		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json'
-		},
+		headers: createHeaders(),
 		body: JSON.stringify({ firstName: fname, lastName: lname, email, password, mobile })
 	});
 	if (!response.ok) {
 		throw new Error('Registration failed');
+	}
+	return response.json();
+};
+
+export const getDoctors = async () => {
+	const response = await fetch(doctorsUrl, {
+		method: 'GET'
+	});
+	if (!response.ok) {
+		throw new Error('Failed to fetch doctors');
+	}
+	return response.json();
+};
+
+export const getSpecialties = async () => {
+	const response = await fetch(specialitiesUrl, {
+		method: 'GET'
+	});
+	if (!response.ok) {
+		throw new Error('Failed to fetch specialities');
+	}
+	return response.json();
+};
+
+
+export const getDoctorById = async (id) => {
+	const response = await fetch(`${doctorsUrl}/${id}`, {
+		method: 'GET'
+	});
+	if (!response.ok) {
+		throw new Error('Failed to fetch doctor details');
+	}
+	return response.json();
+};
+
+export const getDoctorBySpeciality = async (speciality) => {
+	const response = await fetch(`${doctorsUrl}?speciality=${speciality}`, {
+		method: 'GET'
+	});
+	if (!response.ok) {
+		throw new Error('Failed to fetch doctors by speciality');
 	}
 	return response.json();
 };
