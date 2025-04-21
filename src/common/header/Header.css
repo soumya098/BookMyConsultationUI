@@ -11,7 +11,7 @@
 	align-items: center;
 	display: flex;
 	justify-content: center;
-  gap: 15px;
+	gap: 15px;
 }
 
 .title {
@@ -25,6 +25,30 @@
 	background-color: #ff7f7f;
 }
 
-.login{
-  
+.login {
+}
+
+.login-modal {
+	margin: 150px auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.modal-header {
+	background-color: purple;
+}
+
+.modal-body{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.modal-form{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
 }

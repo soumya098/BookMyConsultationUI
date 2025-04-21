@@ -14,14 +14,15 @@ const userReducer = (state = initialState, action) => {
 		case actionTypes.SET_USER:
 			return {
 				...state,
-				email: action.payload.email,
+				firstname: action.payload.firstName,
+				lastname: action.payload.lastName,
+				email: action.payload.emailAddress,
+				phone: action.payload.mobilePhoneNumber,
 				loggedIn: true
 			};
 		case actionTypes.LOGOUT:
 			return {
-				...state,
-				email: '',
-				loggedIn: false
+				...initialState
 			};
 		default:
 			return state;
