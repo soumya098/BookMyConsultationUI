@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { logoutUser } from '../../store/actions/authActionCreators';
 import Login from '../../screens/login/Login';
 import Register from '../../screens/register/Register';
+import Modal from '../Modal';
 
 ReactModal.setAppElement('#root');
 
@@ -47,22 +48,15 @@ const Header = () => {
 				</Button>
 			)}
 
-			<ReactModal isOpen={modalIsOpen} onRequestClose={closeModal} contentLabel='Example Modal' className='login-modal'>
-				<Card variant='outlined' className='modal-card'>
-					<CardContent className='modal-header'>
-						<span className='text-white'>Authentication</span>
-					</CardContent>
-					<CardContent className='modal-body'>
-						<Tabs value={tabValue} onChange={handleTabChange} aria-label='simple tabs example' centered>
-							<Tab label='Login' />
-							<Tab label='Register' />
-						</Tabs>
-						<Box width={1} display='flex' justifyContent='center' alignItems='center' className='modal-content' alignSelf='center'>
-							{tabValue === 0 ? <Login onLoginSuccess={closeModal} /> : <Register onLoginSuccess={closeModal} />}
-						</Box>
-					</CardContent>
-				</Card>
-			</ReactModal>
+			<Modal isOpen={modalIsOpen} closeModal={closeModal} classNames='login-modal' title='Authentication'>
+				<Tabs value={tabValue} onChange={handleTabChange} aria-label='simple tabs example' centered>
+					<Tab label='Login' />
+					<Tab label='Register' />
+				</Tabs>
+				<Box width={1} display='flex' justifyContent='center' alignItems='center' className='modal-content' alignSelf='center'>
+					{tabValue === 0 ? <Login onLoginSuccess={closeModal} /> : <Register onLoginSuccess={closeModal} />}
+				</Box>
+			</Modal>
 		</div>
 	);
 };

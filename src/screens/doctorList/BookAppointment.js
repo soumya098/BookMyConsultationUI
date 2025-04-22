@@ -7,6 +7,7 @@ import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/picker
 import { useSelector } from 'react-redux';
 import { bookAppointment } from '../../util/fetch';
 import { ca } from 'date-fns/locale';
+import Modal from '../../common/Modal';
 
 ReactModal.setAppElement('#root');
 
@@ -56,74 +57,67 @@ const BookAppointment = ({ isOpen, onClose, title, doctor }) => {
 	};
 
 	return (
-		<ReactModal isOpen={isOpen} onRequestClose={onClose} className='custom-modal' contentLabel={title || 'Modal'}>
-			<Card variant='outlined' className='modal-card'>
-				<CardContent className='modal-header'>
-					<span className='text-white'>{title}</span>
-				</CardContent>
-				<CardContent className='modal-body'>
-					<form className='appointment-modal-form mt-3' onSubmit={handleSubmit(onSubmit)}>
-						<FormControl error={!!errors.doctorName}>
-							<InputLabel htmlFor='login-email'>Doctor Name*</InputLabel>
-							<Input type='text' {...register('doctorName')} value={`${doctor?.firstName} ${doctor?.lastName}`} disabled />
-							<FormHelperText>{errors.doctorName?.message}</FormHelperText>
-						</FormControl>
+		<Modal isOpen={isOpen} closeModal={onClose} classNames='custom-modal' title={title}>
+			<form className='appointment-modal-form mt-3' onSubmit={handleSubmit(onSubmit)}>
+				<FormControl error={!!errors.doctorName}>
+					<InputLabel htmlFor='login-email'>Doctor Name*</InputLabel>
+					<Input type='text' {...register('doctorName')} value={`${doctor?.firstName} ${doctor?.lastName}`} disabled />
+					<FormHelperText>{errors.doctorName?.message}</FormHelperText>
+				</FormControl>
 
-						<input type='hidden' {...register('doctorName')} value={`${doctor?.firstName} ${doctor?.lastName}`} />
-						<input type='hidden' {...register('doctorId')} value={doctor?.id} />
-						<input type='hidden' {...register('userId')} value={email} />
-						<input type='hidden' {...register('userName')} value={`${firstName} ${lastName}`} />
-						<input type='hidden' {...register('userEmailId')} value={email} />
+				<input type='hidden' {...register('doctorName')} value={`${doctor?.firstName} ${doctor?.lastName}`} />
+				<input type='hidden' {...register('doctorId')} value={doctor?.id} />
+				<input type='hidden' {...register('userId')} value={email} />
+				<input type='hidden' {...register('userName')} value={`${firstName} ${lastName}`} />
+				<input type='hidden' {...register('userEmailId')} value={email} />
 
-						<div>
-							<MuiPickersUtilsProvider utils={DateFnsUtils}>
-								<KeyboardDatePicker
-									disableToolbar
-									variant='inline'
-									format='MM/dd/yyyy'
-									margin='normal'
-									id='date-picker-inline'
-									label='Date picker inline'
-									value={selectedDate}
-									onChange={handleDateChange}
-									KeyboardButtonProps={{
-										'aria-label': 'change date'
-									}}
-								/>
-							</MuiPickersUtilsProvider>
-						</div>
+				<div>
+					<MuiPickersUtilsProvider utils={DateFnsUtils}>
+						<KeyboardDatePicker
+							disableToolbar
+							variant='inline'
+							format='MM/dd/yyyy'
+							margin='normal'
+							id='date-picker-inline'
+							label='Date picker inline'
+							value={selectedDate}
+							onChange={handleDateChange}
+							KeyboardButtonProps={{
+								'aria-label': 'change date'
+							}}
+						/>
+					</MuiPickersUtilsProvider>
+				</div>
 
-						<FormControl error={!!errors.timeSlot} className='w-50'>
-							<InputLabel>Timeslot</InputLabel>
-							<Select label='Timeslot' defaultValue='' {...register('timeSlot', { required: 'Select a time slot' })}>
-								<MenuItem value=''>
-									<em>None</em>
-								</MenuItem>
-								{timeSlots.map((slot) => (
-									<MenuItem key={slot} value={slot}>
-										{slot}
-									</MenuItem>
-								))}
-							</Select>
-							<FormHelperText>{errors.timeSlot?.message}</FormHelperText>
-						</FormControl>
+				<FormControl error={!!errors.timeSlot} className='w-50'>
+					<InputLabel>Timeslot</InputLabel>
+					<Select label='Timeslot' defaultValue='' {...register('timeSlot', { required: 'Select a time slot' })}>
+						<MenuItem value=''>
+							<em>None</em>
+						</MenuItem>
+						{timeSlots.map((slot) => (
+							<MenuItem key={slot} value={slot}>
+								{slot}
+							</MenuItem>
+						))}
+					</Select>
+					<FormHelperText>{errors.timeSlot?.message}</FormHelperText>
+				</FormControl>
 
-						<div>
-							<TextField label='Medical History' margin='normal' multiline {...register('priorMedicalHistory')} className='w-50' minRows={5} />
-							<br />
+				<div>
+					<TextField label='Medical History' margin='normal' multiline {...register('priorMedicalHistory')} className='w-50' minRows={5} />
+					<br />
 
-							<TextField label='Symptoms' margin='normal' multiline {...register('symptoms')} className='w-50' minRows={5} />
-						</div>
+					<TextField label='Symptoms' margin='normal' multiline {...register('symptoms')} className='w-50' minRows={5} />
+				</div>
 
-						<div className='mt-5'>
-							<Button variant='contained' color='primary' type='submit'>
-								Book Appointment
-							</Button>
-						</div>
-					</form>
-				</CardContent>
-			</Card>
-		</ReactModal>
+				<div className='mt-5'>
+					<Button variant='contained' color='primary' type='submit'>
+						Book Appointment
+					</Button>
+				</div>
+			</form>
+		</Modal>
 	);
 };
 

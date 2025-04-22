@@ -35,10 +35,17 @@ export const login = async (email, password) => {
 		method: 'POST',
 		headers: createHeaders(false, credentials)
 	});
+
+	const result = await response.json();
+
 	if (!response.ok) {
-		throw new Error('Login failed');
+		const error = new Error(result.message || 'Login failed');
+		error.status = response.status;
+		error.details = result;
+		throw error;
 	}
-	return response.json();
+
+	return result;
 };
 
 export const logout = async () => {
@@ -52,7 +59,7 @@ export const register = async ({ fname, lname, email, password, mobile }) => {
 	const response = await fetch(registerUrl, {
 		method: 'POST',
 		headers: createHeaders(),
-		body: JSON.stringify({ firstName: fname, lastName: lname, email, password, mobile })
+		body: JSON.stringify({ firstName: fname, lastName: lname, emailId: email, password, mobile })
 	});
 	if (!response.ok) {
 		throw new Error('Registration failed');
@@ -111,7 +118,7 @@ export const getUserAppointments = async (userId) => {
 	return response.json();
 };
 
-export const bookAppointment = async (data) => { 
+export const bookAppointment = async (data) => {
 	const response = await fetch(bookAppointmentUrl, {
 		method: 'POST',
 		headers: createHeaders(true),
@@ -120,21 +127,21 @@ export const bookAppointment = async (data) => {
 	if (!response.ok) {
 		throw new Error('Failed to book appointment');
 	}
-	
-	return response.text();
-}
 
-export const submitRating = async (data) => { 
+	return response.text();
+};
+
+export const submitRating = async (data) => {
 	const response = await fetch(ratingUrl, {
 		method: 'POST',
 		headers: createHeaders(true),
 		body: JSON.stringify(data)
 	});
-	
+
 	console.log('Response:', response);
-	
+
 	if (!response.ok) {
 		throw new Error('Failed to submit rating');
 	}
 	return response;
-}
+};

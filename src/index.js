@@ -7,11 +7,14 @@ import Controller from './screens/Controller';
 import { Provider } from 'react-redux';
 import { store, persistor } from './store';
 import { PersistGate } from 'redux-persist/integration/react';
+import { ToastProvider } from './common/Notification';
 
 const App = () => (
 	<Provider store={store}>
 		<PersistGate loading={null} persistor={persistor}>
-			<Controller />
+			<ToastProvider>
+				<Controller />
+			</ToastProvider>
 		</PersistGate>
 	</Provider>
 );
