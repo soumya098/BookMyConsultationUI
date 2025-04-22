@@ -9,7 +9,6 @@ const specialitiesUrl = `${baseURL}/doctors/speciality`;
 
 const appointmentsUrl = `${baseURL}/users`;
 const bookAppointmentUrl = `${baseURL}/appointments`;
-
 const ratingUrl = `${baseURL}/ratings	`;
 
 const createHeaders = (includeToken = false, credentials = null) => {
