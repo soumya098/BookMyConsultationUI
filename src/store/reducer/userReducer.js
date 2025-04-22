@@ -1,8 +1,8 @@
 import * as actionTypes from '../actions';
 
 const initialState = {
-	firstname: '',
-	lastname: '',
+	firstName: '',
+	lastName: '',
 	email: '',
 	phone: '',
 	dob: '',
@@ -14,8 +14,8 @@ const userReducer = (state = initialState, action) => {
 		case actionTypes.SET_USER:
 			return {
 				...state,
-				firstname: action.payload.firstName,
-				lastname: action.payload.lastName,
+				firstName: action.payload.firstName,
+				lastName: action.payload.lastName,
 				email: action.payload.emailAddress,
 				phone: action.payload.mobilePhoneNumber,
 				loggedIn: true

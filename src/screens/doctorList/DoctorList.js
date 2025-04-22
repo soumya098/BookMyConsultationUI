@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SET_SPECIALTIES } from '../../store/actions';
 import { Button, Paper } from '@material-ui/core';
 import BookAppointment from './BookAppointment';
+import DoctorDetails from './DoctorDetails';
 
 const DoctorList = () => {
 	const [doctors, setDoctors] = useState([]);
@@ -12,6 +13,7 @@ const DoctorList = () => {
 	console.log('redux specialties:', specialties);
 	const [isOpen, setIsOpen] = useState(false);
 	const [selectedDoctor, setSelectedDoctor] = useState(null);
+	const [modalNo, setModalNo] = useState(0);
 
 	const dispatch = useDispatch();
 
@@ -57,6 +59,13 @@ const DoctorList = () => {
 	};
 
 	const handleBooking = (doctor) => {
+		setModalNo(1)
+		setIsOpen(true);
+		setSelectedDoctor(doctor);
+	};
+
+	const handleViewDetails = (doctor) => {
+		setModalNo(0);
 		setIsOpen(true);
 		setSelectedDoctor(doctor);
 	};
@@ -96,7 +105,7 @@ const DoctorList = () => {
 										<Button variant='contained' color='primary' fullWidth onClick={() => handleBooking(doctor)}>
 											Book Appointment
 										</Button>
-										<Button variant='contained' fullWidth className='details-btn'>
+										<Button variant='contained' fullWidth className='details-btn' onClick={() => handleViewDetails(doctor)}>
 											View Details
 										</Button>
 									</div>
@@ -106,7 +115,8 @@ const DoctorList = () => {
 					))}
 			</div>
 
-			<BookAppointment isOpen={isOpen} onClose={() => setIsOpen(false)} title='Book an Appointment' doctor={selectedDoctor} />
+			<BookAppointment isOpen={modalNo === 1 && isOpen} onClose={() => setIsOpen(false)} title='Book an Appointment' doctor={selectedDoctor} />
+			<DoctorDetails isOpen={modalNo === 0 && isOpen} onClose={() => setIsOpen(false)} title='Doctor Details' doctor={selectedDoctor} />
 		</div>
 	);
 };

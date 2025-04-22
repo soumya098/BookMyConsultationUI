@@ -4,6 +4,9 @@ import { useForm } from 'react-hook-form';
 import ReactModal from 'react-modal';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
+import { useSelector } from 'react-redux';
+import { bookAppointment } from '../../util/fetch';
+import { ca } from 'date-fns/locale';
 
 ReactModal.setAppElement('#root');
 
@@ -26,6 +29,7 @@ const timeSlots = [
 const BookAppointment = ({ isOpen, onClose, title, doctor }) => {
 	console.log('Doctor:', doctor);
 	const [selectedDate, setSelectedDate] = useState(new Date());
+	const { firstName, lastName, email } = useSelector((state) => state.userReducer);
 
 	const handleDateChange = (date) => {
 		setSelectedDate(date);
@@ -38,11 +42,17 @@ const BookAppointment = ({ isOpen, onClose, title, doctor }) => {
 	} = useForm();
 
 	const onSubmit = async (data) => {
-		data.appointmentDate = selectedDate;
+		data.appointmentDate = selectedDate.toISOString().split('T')[0]; // Format date to YYYY-MM-DD
 
 		console.log('Form Data:', data);
-		// Handle form submission logic here
-		// For example, you can send the data to your backend API
+		try {
+			const response = await bookAppointment(data);
+			console.log('Response:', response);
+		} catch (error) {
+			console.error('Error booking appointment:', error);
+			alert('Either the slot is already booked or not available.');
+			onClose();
+		}
 	};
 
 	return (
@@ -60,6 +70,10 @@ const BookAppointment = ({ isOpen, onClose, title, doctor }) => {
 						</FormControl>
 
 						<input type='hidden' {...register('doctorName')} value={`${doctor?.firstName} ${doctor?.lastName}`} />
+						<input type='hidden' {...register('doctorId')} value={doctor?.id} />
+						<input type='hidden' {...register('userId')} value={email} />
+						<input type='hidden' {...register('userName')} value={`${firstName} ${lastName}`} />
+						<input type='hidden' {...register('userEmailId')} value={email} />
 
 						<div>
 							<MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -95,10 +109,10 @@ const BookAppointment = ({ isOpen, onClose, title, doctor }) => {
 						</FormControl>
 
 						<div>
-							<TextField label='Medical History' margin='normal' multiline {...register('medicalHistory')} className='w-50' />
+							<TextField label='Medical History' margin='normal' multiline {...register('priorMedicalHistory')} className='w-50' minRows={5} />
 							<br />
 
-							<TextField label='Symptoms' margin='normal' multiline {...register('symptoms')} className='w-50' />
+							<TextField label='Symptoms' margin='normal' multiline {...register('symptoms')} className='w-50' minRows={5} />
 						</div>
 
 						<div className='mt-5'>

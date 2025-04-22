@@ -8,6 +8,9 @@ const doctorsUrl = `${baseURL}/doctors`;
 const specialitiesUrl = `${baseURL}/doctors/speciality`;
 
 const appointmentsUrl = `${baseURL}/users`;
+const bookAppointmentUrl = `${baseURL}/appointments`;
+
+const ratingUrl = `${baseURL}/ratings	`;
 
 const createHeaders = (includeToken = false, credentials = null) => {
 	const headers = {
@@ -107,3 +110,31 @@ export const getUserAppointments = async (userId) => {
 	}
 	return response.json();
 };
+
+export const bookAppointment = async (data) => { 
+	const response = await fetch(bookAppointmentUrl, {
+		method: 'POST',
+		headers: createHeaders(true),
+		body: JSON.stringify(data)
+	});
+	if (!response.ok) {
+		throw new Error('Failed to book appointment');
+	}
+	
+	return response.text();
+}
+
+export const submitRating = async (data) => { 
+	const response = await fetch(ratingUrl, {
+		method: 'POST',
+		headers: createHeaders(true),
+		body: JSON.stringify(data)
+	});
+	
+	console.log('Response:', response);
+	
+	if (!response.ok) {
+		throw new Error('Failed to submit rating');
+	}
+	return response;
+}

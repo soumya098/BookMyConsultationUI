@@ -9,9 +9,35 @@
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
 	width: 90% !important;
 	max-width: 500px !important;
-	margin: 150px auto !important;
+	margin: 50px auto !important;
 }
 
 .appointment-modal-form {
 	width: 100% !important;
+}
+
+.appointment-card {
+	text-align: left;
+	padding: 20px;
+	margin: 15px;
+	cursor: pointer;
+	display: flex;
+	flex-direction: column;
+}
+
+.rating-modal-body,
+.doctor-details-modal-body {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: flex-start;
+}
+
+.doctor-modal {
+	background-color: #fff !important;
+	border-radius: 10px !important;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+	width: 90% !important;
+	max-width: 500px !important;
+	margin: 200px auto !important;
 }
