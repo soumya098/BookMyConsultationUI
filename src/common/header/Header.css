@@ -25,11 +25,15 @@
 	background-color: #ff7f7f;
 }
 
-.login {
-}
-
 .login-modal {
 	margin: 150px auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.register-modal {
+	margin: 100px auto;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -54,5 +58,18 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	gap: 10px;
+	gap: 12px;
+}
+
+
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
 }

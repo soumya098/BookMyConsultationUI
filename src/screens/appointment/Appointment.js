@@ -7,6 +7,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { Rating } from '@material-ui/lab';
 import RateAppointment from './RateAppointment';
 import { is } from 'date-fns/locale';
+import { toastService } from '../../services/toastService';
 
 const displayAppointments = (appointments, handleModalToggle) => {
 	if (appointments.length === 0) {
@@ -63,7 +64,12 @@ const Appointment = () => {
 
 	const onSubmit = async (data) => {
 		console.log(data);
-		await submitRating(data);
+		try {
+			await submitRating(data);
+			toastService.show('Rating submitted successfully', 'success');
+		} catch (error) {
+			console.log(error);
+		}
 		setIsOpen(false);
 		fetchAppointments();
 	};

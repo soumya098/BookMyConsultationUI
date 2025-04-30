@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { Button, Card, CardContent, FormHelperText, TextField, Typography } from '@material-ui/core';
+import { Button, FormHelperText, TextField, Typography } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
 import Modal from '../../common/Modal';
 
@@ -9,12 +9,25 @@ const RateAppointment = ({ appointment, onSubmit, isOpen, setIsOpen }) => {
 		register,
 		handleSubmit,
 		control,
-		formState: { errors }
+		formState: { errors },
+		reset
 	} = useForm();
 
+	useEffect(() => {
+		if (!isOpen) reset();
+	}, [isOpen, reset]);
+
 	return (
-		<Modal isOpen={isOpen} closeModal={() => setIsOpen(false)} classNames='custom-modal' title='Rate an Appointment' contentClassNames='rating-modal-body'>
-			<form className='appointment-modal-form mt-3' onSubmit={handleSubmit(onSubmit)}>
+		<Modal
+			isOpen={isOpen}
+			closeModal={() => {
+				setIsOpen(false);
+				reset();
+			}}
+			classNames='custom-modal'
+			title='Rate an Appointment'
+			contentClassNames='rating-modal-body'>
+			<form className='appointment-modal-form' onSubmit={handleSubmit(onSubmit)}>
 				<TextField fullWidth label='Comments' multiline minRows={4} {...register('comments')} margin='normal' />
 
 				<div className='mt-3 d-flex flex-row align-items-center'>

@@ -1,4 +1,4 @@
-import { Button, Card, CardContent, FormControl, FormHelperText, Input, InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
+import { Button, FormControl, FormHelperText, Input, InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import ReactModal from 'react-modal';
@@ -6,8 +6,8 @@ import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import { useSelector } from 'react-redux';
 import { bookAppointment } from '../../util/fetch';
-import { ca } from 'date-fns/locale';
 import Modal from '../../common/Modal';
+import { toastService } from '../../services/toastService';
 
 ReactModal.setAppElement('#root');
 
@@ -49,6 +49,8 @@ const BookAppointment = ({ isOpen, onClose, title, doctor }) => {
 		try {
 			const response = await bookAppointment(data);
 			console.log('Response:', response);
+			toastService.show('Appointment Booked Successfully', 'success');
+			onClose();
 		} catch (error) {
 			console.error('Error booking appointment:', error);
 			alert('Either the slot is already booked or not available.');

@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form';
 import { loginUser } from '../../store/actions/authActionCreators';
 import { Button, FormControl, FormHelperText, Input, InputLabel } from '@material-ui/core';
 
-
 const Login = ({ onLoginSuccess }) => {
 	const {
 		register,

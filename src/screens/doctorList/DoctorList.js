@@ -3,13 +3,15 @@ import { getDoctorBySpecialty, getDoctors, getSpecialties } from '../../util/fet
 import { Star, StarBorder } from '@material-ui/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { SET_SPECIALTIES } from '../../store/actions';
-import { Button, Paper } from '@material-ui/core';
+import { Button, Paper, Typography } from '@material-ui/core';
 import BookAppointment from './BookAppointment';
 import DoctorDetails from './DoctorDetails';
+import { toastService } from '../../services/toastService';
 
 const DoctorList = () => {
 	const [doctors, setDoctors] = useState([]);
 	const specialties = useSelector((state) => state.doctorReducer.allSpecialties);
+	const { loggedIn } = useSelector((state) => state.userReducer);
 	console.log('redux specialties:', specialties);
 	const [isOpen, setIsOpen] = useState(false);
 	const [selectedDoctor, setSelectedDoctor] = useState(null);
@@ -59,9 +61,13 @@ const DoctorList = () => {
 	};
 
 	const handleBooking = (doctor) => {
-		setModalNo(1)
-		setIsOpen(true);
-		setSelectedDoctor(doctor);
+		if (loggedIn) {
+			setModalNo(1);
+			setIsOpen(true);
+			setSelectedDoctor(doctor);
+		} else {
+			toastService.show('Please login to book an appointment', 'error');
+		}
 	};
 
 	const handleViewDetails = (doctor) => {
@@ -90,16 +96,18 @@ const DoctorList = () => {
 						<div key={doctor.id} className='col-12 my-2'>
 							<Paper elevation={3} className='card'>
 								<div className='card-body'>
-									<h5 className='card-title'>
+									<Typography variant='h5' className='card-title mb-4'>
 										Doctor Name: {doctor.firstName} {doctor.lastName}
-									</h5>
-									<p className='card-text'>Speciality: {doctor.speciality}</p>
-									<p className='card-text'>
+									</Typography>
+									<Typography variant='body2' className='mb-2'>
+										Speciality: {doctor.speciality}
+									</Typography>
+									<Typography variant='body2' className='mb-2'>
 										Rating:{' '}
 										{Array.from({ length: 5 }, (_, i) =>
 											i < Math.floor(doctor.rating) ? <Star key={i} style={{ color: '#fbc02d' }} /> : <StarBorder key={i} style={{ color: '#fbc02d' }} />
 										)}
-									</p>
+									</Typography>
 
 									<div className='d-flex justify-content-between align-items-center gap-4'>
 										<Button variant='contained' color='primary' fullWidth onClick={() => handleBooking(doctor)}>

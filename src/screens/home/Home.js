@@ -11,8 +11,6 @@ const Home = ({ baseUrl }) => {
 		setValue(newValue);
 	};
 
-	const isLoggedIn = useSelector((state) => state.userReducer.loggedIn);
-
 	return (
 		<div className='d-flex flex-column align-items-center justify-content-center'>
 			<div className='w-100 d-flex justify-content-center'>

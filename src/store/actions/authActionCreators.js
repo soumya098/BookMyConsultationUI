@@ -1,7 +1,6 @@
 import * as actionTypes from './';
 import * as api from '../../util/fetch';
 import store from '../index';
-import { showToast } from '../../common/Notification';
 import { toastService } from '../../services/toastService';
 
 export const loginUser = async (data) => {
@@ -10,11 +9,9 @@ export const loginUser = async (data) => {
 		console.log('Login successful:', response);
 		sessionStorage.setItem('token', response.accessToken);
 		store.dispatch({ type: actionTypes.SET_USER, payload: response });
-		// showToast('Login successful', 'success');
 		toastService.show('Login successful', 'success');
 	} catch (error) {
 		console.error('Login failed:', error);
-		// showToast(error.details.message, 'error');
 		toastService.show(error.details.message, 'error');
 	}
 };
@@ -25,7 +22,6 @@ export const logoutUser = async () => {
 		console.log('Logout successful');
 		sessionStorage.removeItem('token');
 		store.dispatch({ type: actionTypes.LOGOUT });
-		// showToast('Logout successful', 'success');
 		toastService.show('Logout successful', 'success');
 	} catch (error) {
 		console.error('Logout failed:', error);

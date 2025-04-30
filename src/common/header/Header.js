@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Header.css';
 import logo from '../../assets/logo.jpeg';
-import { Box, Button, Card, CardContent, Tab, Tabs } from '@material-ui/core';
+import { Box, Button, Tab, Tabs } from '@material-ui/core';
 import ReactModal from 'react-modal';
 import { useSelector } from 'react-redux';
 import { logoutUser } from '../../store/actions/authActionCreators';
@@ -48,7 +48,7 @@ const Header = () => {
 				</Button>
 			)}
 
-			<Modal isOpen={modalIsOpen} closeModal={closeModal} classNames='login-modal' title='Authentication'>
+			<Modal isOpen={modalIsOpen} closeModal={closeModal} classNames={tabValue === 0 ? 'login-modal' : 'register-modal'} title='Authentication'>
 				<Tabs value={tabValue} onChange={handleTabChange} aria-label='simple tabs example' centered>
 					<Tab label='Login' />
 					<Tab label='Register' />
